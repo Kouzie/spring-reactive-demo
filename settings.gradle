@@ -1,0 +1,7 @@
+rootProject.name = 'reactive-demo'
+include 'spring-react-mongo'
+include 'spring-react-r2dbc'
+include 'reactive-practice'
+include 'spring-react-redis'
+include 'spring-react-websocket'
+
