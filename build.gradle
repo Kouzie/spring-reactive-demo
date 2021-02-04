@@ -23,11 +23,11 @@ subprojects {
         mavenCentral()
     }
 
-    configurations {
+    /*configurations {
         compileOnly {
             extendsFrom annotationProcessor
         }
-    }
+    }*/
 
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter-webflux'
