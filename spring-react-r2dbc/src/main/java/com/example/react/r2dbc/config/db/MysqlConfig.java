@@ -2,13 +2,16 @@ package com.example.react.r2dbc.config.db;
 
 import dev.miku.r2dbc.mysql.MySqlConnectionConfiguration;
 import dev.miku.r2dbc.mysql.MySqlConnectionFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 
 import java.time.ZoneId;
 
-//@Configuration
-// @EnableR2dbcRepositories // @Repository 사용시 필요
+@Configuration
+@EnableR2dbcRepositories // @Repository 사용시 필요
 public class MysqlConfig {
-    //@Bean
+    @Bean
     public MySqlConnectionFactory connectionFactory() {
         return MySqlConnectionFactory.from(MySqlConnectionConfiguration.builder()
                 .host("127.0.0.1")

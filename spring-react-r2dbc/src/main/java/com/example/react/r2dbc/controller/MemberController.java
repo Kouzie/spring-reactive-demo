@@ -8,8 +8,11 @@ import com.example.react.r2dbc.component.JwtTokenUtil;
 import com.example.react.r2dbc.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -29,6 +32,13 @@ public class MemberController {
     private final MemberDynamic memberDynamic;
     private final PasswordEncoder encoder;
     private final JwtTokenUtil jwtTokenUtil;
+
+    @GetMapping("/profiles")
+    public Mono<Member> getProfile() {
+        return ReactiveSecurityContextHolder.getContext() // Mono<SecurityContext> 반환
+                .map(SecurityContext::getAuthentication)
+                .flatMap(auth -> memberRepository.findByName(auth.getName()));
+    }
 
     @GetMapping
     public Flux<Member> getAll() {

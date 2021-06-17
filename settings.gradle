@@ -8,3 +8,5 @@ include 'spring-react-rsocket:server'
 findProject(':spring-react-rsocket:server')?.name = 'server'
 include 'spring-react-rsocket:client'
 findProject(':spring-react-rsocket:client')?.name = 'client'
+include 'spring-reactive-websocket'
+

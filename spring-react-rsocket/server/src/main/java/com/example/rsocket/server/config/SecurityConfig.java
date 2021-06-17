@@ -4,10 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.rsocket.RSocketStrategies;
 import org.springframework.messaging.rsocket.annotation.support.RSocketMessageHandler;
-import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.rsocket.RSocketSecurity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.messaging.handler.invocation.reactive.AuthenticationPrincipalArgumentResolver;
@@ -20,7 +18,9 @@ public class SecurityConfig {
     MapReactiveUserDetailsService authentication() {
         return new MapReactiveUserDetailsService(User
                 .withUsername("kouzie")
-                .password("{noop}password").roles("USER").build());
+                .password("{noop}password")
+                .roles("USER")
+                .build());
     }
 
     @Bean

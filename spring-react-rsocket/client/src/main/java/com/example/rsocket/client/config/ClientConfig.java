@@ -21,10 +21,9 @@ import org.springframework.util.MimeTypeUtils;
 @Configuration
 public class ClientConfig {
 
-    private final UsernamePasswordMetadata credentials = new UsernamePasswordMetadata("kouzie", "password");
+    private final UsernamePasswordMetadata credentials = new UsernamePasswordMetadata("fms", "ws-beyless1!");
     private final MimeType mimeType = MimeTypeUtils.parseMimeType(WellKnownMimeType
-            .MESSAGE_RSOCKET_AUTHENTICATION
-            .getString());
+            .MESSAGE_RSOCKET_AUTHENTICATION.getString());
 
     @Bean
     RSocketStrategiesCustomizer rSocketStrategiesCustomizer() {
@@ -33,8 +32,7 @@ public class ClientConfig {
     }
 
     @Bean
-    SocketAcceptor socketAcceptor(RSocketStrategies strategies,
-                                  AcceptorController controller) {
+    SocketAcceptor socketAcceptor(RSocketStrategies strategies, AcceptorController controller) {
         return RSocketMessageHandler.responder(strategies, controller);
     }
 
@@ -53,11 +51,11 @@ public class ClientConfig {
         return new ApplicationListener<ApplicationReadyEvent>() {
             @Override
             public void onApplicationEvent(ApplicationReadyEvent event) {
-                client.route("greetings")
+                client.route("fcs.connected")
                         // .metadata(credentials, mimeType) // 직접 설정도 가능하다.
-                        .data(new GreetingRequest("kouzie"))
-                        .retrieveFlux(GreetingResponse.class)
-                        .subscribe(System.out::println);
+                        .data("test")
+                        .retrieveMono(Void.class)
+                        .subscribe(v-> System.out.println("connected!"));
             }
         };
     }
