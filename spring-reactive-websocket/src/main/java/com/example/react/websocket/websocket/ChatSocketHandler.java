@@ -30,9 +30,10 @@ public class ChatSocketHandler implements WebSocketHandler {
         return session.receive()
                 .map(this::toDto)
                 .doOnNext(subscriber::onNext)
-                .doOnCancel(subscriber::onCancel)
+                .doOnError(subscriber::onError)
+                .doOnTerminate(subscriber::doOnTerminate)
                 .zipWith(session.send(subscriber.getMany().asFlux().map(webSocketToClientDto ->
-                        session.textMessage(webSocketToClientDto.getFrom() + ":" + webSocketToClientDto.getMessage()))))
+                session.textMessage(webSocketToClientDto.getFrom() + ":" + webSocketToClientDto.getMessage()))))
                 .then();
     }
 
@@ -81,8 +82,8 @@ class WebSocketMessageSubscriber {
         userMap.remove(id);
     }
 
-    public void onCancel() {
-        log.info("onCancel invoked, id:{}", id);
+    public void doOnTerminate() {
+        log.info("doOnTerminate invoked, id:{}", id);
         userMap.remove(id);
         for (Map.Entry<String, Sinks.Many<WebSocketToClientDto>> entry : userMap.entrySet()) {
             if (!entry.getKey().equals(id))
