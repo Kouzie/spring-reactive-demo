@@ -21,7 +21,7 @@ import org.springframework.util.MimeTypeUtils;
 @Configuration
 public class ClientConfig {
 
-    private final UsernamePasswordMetadata credentials = new UsernamePasswordMetadata("fms", "ws-beyless1!");
+    private final UsernamePasswordMetadata credentials = new UsernamePasswordMetadata("username", "password");
     private final MimeType mimeType = MimeTypeUtils.parseMimeType(WellKnownMimeType
             .MESSAGE_RSOCKET_AUTHENTICATION.getString());
 
@@ -45,13 +45,12 @@ public class ClientConfig {
                 .tcp("localhost", 8888);
     }
 
-
     @Bean
     ApplicationListener<ApplicationReadyEvent> client(RSocketRequester client) {
         return new ApplicationListener<ApplicationReadyEvent>() {
             @Override
             public void onApplicationEvent(ApplicationReadyEvent event) {
-                client.route("fcs.connected")
+                client.route("user.connected")
                         // .metadata(credentials, mimeType) // 직접 설정도 가능하다.
                         .data("test")
                         .retrieveMono(Void.class)

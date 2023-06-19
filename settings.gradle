@@ -1,13 +1,17 @@
 rootProject.name = 'reactive-demo'
+include 'reactive-practice'
+
 include 'spring-react-mongo'
 include 'spring-react-r2dbc'
-include 'reactive-practice'
 include 'spring-react-redis'
 include 'spring-react-rsocket'
+include 'spring-react-rabbitmq'
+
 include 'spring-react-rsocket:server'
 findProject(':spring-react-rsocket:server')?.name = 'server'
 include 'spring-react-rsocket:client'
 findProject(':spring-react-rsocket:client')?.name = 'client'
+
 include 'spring-reactive-websocket'
 include 'spring-reactive-websocket-client'
 

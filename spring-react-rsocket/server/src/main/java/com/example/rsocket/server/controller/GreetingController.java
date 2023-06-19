@@ -43,25 +43,4 @@ public class GreetingController {
                 .delayElements(Duration.ofSeconds(1));
         return out;
     }
-
-    //@MessageMapping("greetings")
-    // Flux<GreetingResponse> greet(RSocketRequester client, @AuthenticationPrincipal UserDetails userDetails) {
-    //     Flux in = client.route("health")
-    //             .retrieveFlux(ClientHealthState.class)
-    //             .filter(clientHealthState -> !clientHealthState.isHealthy())
-    //             .doOnNext(chs -> log.info("not healthy! "));
-    //     Stream<GreetingResponse> stream = Stream.generate(() -> new GreetingResponse("hello " + userDetails.getUsername() + " @ " + Instant.now() + "!"));
-    //     Flux out = Flux.fromStream(stream)
-    //             .takeUntilOther(in)
-    //             .delayElements(Duration.ofSeconds(1));
-    //     return out;
-    // }
-
-
-    //fcs 연결 확인 메시지 받기
-//    @MessageMapping("fcs.connected")
-//    Mono<Void> fcsConnected(RSocketRequester client, String now) {
-//        log.info("fcs connected:{}", now );
-//        return null;
-//    }
 }
