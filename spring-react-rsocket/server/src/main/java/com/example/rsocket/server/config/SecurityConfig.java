@@ -32,14 +32,4 @@ public class SecurityConfig {
                 .simpleAuthentication(Customizer.withDefaults()) //
                 .build();
     }
-
-
-    @Bean
-    RSocketMessageHandler messageHandler(RSocketStrategies strategies) {
-        // 메세지 컨트롤러에서 @AuthenticationPrincipal 를 사용하기 위한 설정
-        RSocketMessageHandler rmh = new RSocketMessageHandler();
-        rmh.setRSocketStrategies(strategies);
-        rmh.getArgumentResolverConfigurer().addCustomResolver(new AuthenticationPrincipalArgumentResolver());
-        return rmh;
-    }
 }

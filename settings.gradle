@@ -6,6 +6,7 @@ include 'spring-react-r2dbc'
 include 'spring-react-redis'
 include 'spring-react-rsocket'
 include 'spring-react-rabbitmq'
+include 'spring-react-security'
 
 include 'spring-react-rsocket:server'
 findProject(':spring-react-rsocket:server')?.name = 'server'
