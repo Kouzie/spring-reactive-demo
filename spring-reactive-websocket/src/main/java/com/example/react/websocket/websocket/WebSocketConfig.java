@@ -1,6 +1,5 @@
-package com.example.react.websocket.config;
+package com.example.react.websocket.websocket;
 
-import com.example.react.websocket.websocket.ChatSocketHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.HandlerMapping;
@@ -13,9 +12,9 @@ import java.util.Collections;
 public class WebSocketConfig {
 
     @Bean
-    public HandlerMapping handlerMapping(ChatSocketHandler chatSocketHandler) {
+    public HandlerMapping handlerMapping(MyWebSocketHandler myWebSocketHandler) {
         SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
-        mapping.setUrlMap(Collections.singletonMap("/ws/chat", chatSocketHandler));
+        mapping.setUrlMap(Collections.singletonMap("/ws/chat", myWebSocketHandler));
         mapping.setOrder(-1);
         return mapping;
     }
