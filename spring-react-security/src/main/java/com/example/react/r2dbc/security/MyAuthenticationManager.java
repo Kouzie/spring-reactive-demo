@@ -15,7 +15,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class AuthenticationManager implements ReactiveAuthenticationManager {
+public class MyAuthenticationManager implements ReactiveAuthenticationManager {
 
     private final JwtTokenUtil jwtUtil;
 

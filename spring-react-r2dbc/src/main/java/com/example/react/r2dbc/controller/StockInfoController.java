@@ -6,6 +6,8 @@ import com.example.react.r2dbc.dto.SortTag;
 import com.example.react.r2dbc.dto.StockInfoDto;
 import com.example.react.r2dbc.model.StockInfo;
 import com.example.react.r2dbc.service.StockInfoService;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -15,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 
 @Slf4j
 @Validated

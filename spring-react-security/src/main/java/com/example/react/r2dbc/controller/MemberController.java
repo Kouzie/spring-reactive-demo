@@ -5,6 +5,8 @@ import com.example.react.r2dbc.repository.MemberDynamic;
 import com.example.react.r2dbc.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +29,13 @@ public class MemberController {
     public Mono<Member> getProfile() {
         return ReactiveSecurityContextHolder.getContext() // Mono<SecurityContext> 반환
                 .map(SecurityContext::getAuthentication)
-                .flatMap(auth -> memberRepository.findByName(auth.getName()));
+                .flatMap(auth -> memberRepository.findByUserName(auth.getName()));
+    }
+
+    @PreAuthorize("hasRole('MEMBER')")
+    @GetMapping("/profiles/auth")
+    public Mono<Member> getProfile(Authentication auth) {
+        return memberRepository.findByName(auth.getName());
     }
 
     @GetMapping("/user-name-like/{userName}")

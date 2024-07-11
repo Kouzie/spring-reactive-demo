@@ -1,3 +1,15 @@
+pluginManagement {
+    plugins {
+        id 'org.springframework.boot' version "$springBootVersion"
+        id 'io.spring.dependency-management' version "$springDependencyManagement"
+    }
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+        google()
+    }
+}
+
 rootProject.name = 'reactive-demo'
 include 'reactive-practice'
 
@@ -7,11 +19,10 @@ include 'spring-react-redis'
 include 'spring-react-rsocket'
 include 'spring-react-rabbitmq'
 include 'spring-react-security'
+include 'spring-react-jpa'
 
 include 'spring-react-rsocket:server'
-findProject(':spring-react-rsocket:server')?.name = 'server'
 include 'spring-react-rsocket:client'
-findProject(':spring-react-rsocket:client')?.name = 'client'
 
 include 'spring-reactive-websocket'
 include 'spring-reactive-websocket-client'

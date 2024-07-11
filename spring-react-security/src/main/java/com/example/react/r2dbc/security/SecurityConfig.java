@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.AuthenticationException;
@@ -22,13 +23,14 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 import java.util.Arrays;
 
-@Slf4j
-@Configuration
 @RequiredArgsConstructor
 @EnableWebFluxSecurity
+@Slf4j
+@Configuration
+@EnableReactiveMethodSecurity
 public class SecurityConfig {
 
-    private final AuthenticationManager authenticationManager;
+    private final MyAuthenticationManager myAuthenticationManager;
     private final SecurityContextRepository securityContextRepository;
 
     @Bean
@@ -85,7 +87,7 @@ public class SecurityConfig {
                 .authenticationEntryPoint((swd, e) -> Mono.error(new AuthenticationCredentialsNotFoundException("")))
                 .accessDeniedHandler((swe, e) -> Mono.error(new AccessDeniedException("")))
                 .and()
-                .authenticationManager(authenticationManager)
+                .authenticationManager(myAuthenticationManager)
                 .securityContextRepository(securityContextRepository)
                 .csrf().disable()
                 .cors().disable()
@@ -93,8 +95,6 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .authorizeExchange()
                 .pathMatchers("/auth/**").permitAll()
-                .pathMatchers("/member/**").authenticated()
-                .pathMatchers("/admin/**").hasRole("ROLE_ADMIN")
                 .anyExchange().permitAll()
                 .and()
                 .build();
