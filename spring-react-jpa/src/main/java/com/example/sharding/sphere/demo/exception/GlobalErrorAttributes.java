@@ -1,14 +1,10 @@
-package com.example.react.r2dbc.exception;
+package com.example.sharding.sphere.demo.exception;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.reactive.error.DefaultErrorAttributes;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,7 +13,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import static com.example.react.r2dbc.exception.ErrorMessageConstant.*;
+import static com.example.sharding.sphere.demo.exception.ErrorMessageConstant.*;
 
 @Slf4j
 @Component
@@ -30,15 +26,9 @@ public class GlobalErrorAttributes extends DefaultErrorAttributes {
         Map<String, Object> map = new HashMap<>();
         String acceptLanguage = request.headers().firstHeader("accept-language");
         Locale locale = acceptLanguage != null && acceptLanguage.startsWith("ko") ? Locale.KOREA : Locale.getDefault();
-        if (throwable instanceof AccessDeniedException) {
-            map.put("code", INVALID_AUTHENTICATION_KEY_ERROR_CODE);
-            map.put("error", INVALID_AUTHENTICATION_KEY_ERROR_TYPE);
-        } else if (throwable instanceof AuthenticationCredentialsNotFoundException) {
-            map.put("code", INVALID_AUTHENTICATION_KEY_ERROR_CODE);
-            map.put("error", INVALID_AUTHENTICATION_KEY_ERROR_TYPE);
-        } else if (throwable instanceof ExpiredJwtException || throwable instanceof MalformedJwtException) {
-            map.put("code", INVALID_AUTHENTICATION_KEY_ERROR_CODE);
-            map.put("error", INVALID_AUTHENTICATION_KEY_ERROR_TYPE);
+        if (throwable instanceof IllegalArgumentException) {
+            map.put("code", INVALID_REQUEST_PARAM_ERROR_CODE);
+            map.put("error", INVALID_REQUEST_PARAM_ERROR_TYPE);
         } else if (throwable instanceof ResponseStatusException) {
             handelResponseStatusException((ResponseStatusException) throwable, map, locale);
         } else {

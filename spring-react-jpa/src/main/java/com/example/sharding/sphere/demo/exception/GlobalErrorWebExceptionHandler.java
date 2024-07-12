@@ -1,4 +1,4 @@
-package com.example.react.r2dbc.exception;
+package com.example.sharding.sphere.demo.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.web.WebProperties;
@@ -39,10 +39,12 @@ public class GlobalErrorWebExceptionHandler extends AbstractErrorWebExceptionHan
 
     @Override
     protected RouterFunction<ServerResponse> getRoutingFunction(ErrorAttributes errorAttributes) {
+
         return RouterFunctions.route(RequestPredicates.all(), this::renderErrorResponse);
     }
 
     private Mono<ServerResponse> renderErrorResponse(ServerRequest request) {
+        log.error("error invoked");
         Map<String, Object> errorPropertiesMap = getErrorAttributes(request, ErrorAttributeOptions.defaults());
         Integer status = Integer.valueOf(((String) errorPropertiesMap.get("code")).substring(0, 3));
         return ServerResponse.status(status)

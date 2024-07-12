@@ -79,12 +79,35 @@ public class OrderService {
                 .orElseThrow();
     }
 
+    @Transactional
+    public OrderDto changeOrderStatusRunning(Long id) {
+        OrderEntity order = orderRepository.findByIdForUpdate(id)
+                .orElseThrow();
+        if (order.getStatus() == null || order.getStatus().equals("created")) {
+            order.updateStatus("running");
+            order = orderRepository.save(order);
+        } else {
+            throw new IllegalArgumentException("invalid order, id: " + id);
+        }
+        return toDto(order);
+    }
+
+    @Transactional
+    public OrderDto changeOrderStatusComplete(Long id) {
+        OrderEntity order = orderRepository.findById(id)
+                .orElseThrow();
+        order.updateStatus("complete");
+        order = orderRepository.save(order);
+        return toDto(order);
+    }
+
     private OrderDto toDto(OrderEntity entity) {
         OrderDto dto = new OrderDto();
         dto.setOrderId(entity.getOrderId());
         dto.setTitle(entity.getTitle());
         dto.setAccountId(entity.getAccountId());
         dto.setCreateTime(entity.getCreateTime());
+        dto.setStatus(entity.getStatus());
         return dto;
     }
 }

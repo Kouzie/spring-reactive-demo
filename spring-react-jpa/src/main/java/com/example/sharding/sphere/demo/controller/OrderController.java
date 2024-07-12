@@ -30,6 +30,17 @@ public class OrderController {
         return ReactUtil.blockingToMono(() -> orderService.getTable(id));
     }
 
+    @PutMapping("/status/{id}")
+    public Mono<OrderDto> updateStatus(@PathVariable Long id) {
+        Mono<OrderDto> changeStatusRunning = ReactUtil.blockingToMono(() -> orderService.changeOrderStatusRunning(id));
+        Mono<Long> doSomethingDeploy = Mono.delay(Duration.ofSeconds(1))
+                .doOnNext(t -> System.out.println("timeover"));
+        Mono<OrderDto> changeStatusComplete = ReactUtil.blockingToMono(() -> orderService.changeOrderStatusComplete(id));
+        return changeStatusRunning
+                .then(doSomethingDeploy)
+                .then(changeStatusComplete);
+    }
+
     @PostMapping
     public Mono<OrderDto> addRandomOrder() {
         Mono<OrderDto> result = ReactUtil.blockingToMono(() -> {

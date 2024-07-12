@@ -11,5 +11,6 @@ public class OrderDto {
     private Long orderId;
     private String title;
     private Long accountId;
+    private String status;
     private OffsetDateTime createTime;
 }
